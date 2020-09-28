@@ -15,10 +15,10 @@
  * 
  */
 
-
+$usbpath=realpath(getcwd());
 if (!empty($argv[1]) && is_dir($argv[1]))
 {
-    $path="$argv[1]";
+    $path=realpath($argv[1]);
 //----------------------------READ ALL FILES----------------------------------->
     $list=getDirContents("$path");
     $allmidi=array();
@@ -28,12 +28,13 @@ if (!empty($argv[1]) && is_dir($argv[1]))
         if ($ext == "mid" || $ext == "kar")
         {
             $rec=array();
-            $rec['filename']="I:/".str_replace("$path","",$item);
+            $rec['filename']="I:".str_replace("$usbpath","",$item);
             $rec['author']=basename(dirname($rec['filename']));
             $allmidi[]=$rec;
         }
     }
-    print_r($allmidi);
+    //print_r($usbpath);
+    //print_r($allmidi);
 //----------------------------READ ALL FILES-----------------------------------<
     $data="";
     $rows="";
@@ -95,7 +96,14 @@ if (!empty($argv[1]) && is_dir($argv[1]))
     $headerFiles="FPhd"."\x00".IntTodWord($countx);
     $contents=$header.$rows.$headerFiles.$str_files;
     $filename="midi_".basename($path).".mfd";
-    file_put_contents("./$filename",$contents);
+    if (file_exists("./Mfd") && is_dir("./Mfd"))
+    {
+        file_put_contents("./Mfd/$filename",$contents);        
+    }
+    else
+    {
+        file_put_contents("./$filename",$contents);
+    }
     echo "\n$filename created\n";
 }
 
