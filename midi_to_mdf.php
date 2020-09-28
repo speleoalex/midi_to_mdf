@@ -20,7 +20,7 @@ if (!empty($argv[1]) && is_dir($argv[1]))
 {
     $path="$argv[1]";
 //----------------------------READ ALL FILES----------------------------------->
-    $list=getDirContents("/home/speleoalex/Musica/_Chiavetta_Yamaha/Songs/Italiani/");
+    $list=getDirContents("$path");
     $allmidi=array();
     foreach($list as $item)
     {
